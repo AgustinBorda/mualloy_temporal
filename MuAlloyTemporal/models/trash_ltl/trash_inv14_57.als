@@ -1,0 +1,11 @@
+var sig File {
+	var link : lone File
+}
+var sig Trash in File {}
+var sig Protected in File {}
+
+pred prop14_faulty { 
+	File in Protected&Trash  implies after File not in Protected
+}
+
+run  prop14_faulty

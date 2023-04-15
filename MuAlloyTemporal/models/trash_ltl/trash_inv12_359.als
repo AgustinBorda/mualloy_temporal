@@ -1,0 +1,11 @@
+var sig File {
+	var link : lone File
+}
+var sig Trash in File {}
+var sig Protected in File {}
+
+pred prop12_faulty { 
+  eventually some Trash and all f: File | once f in Trash implies always f in Trash
+}
+
+run  prop12_faulty
