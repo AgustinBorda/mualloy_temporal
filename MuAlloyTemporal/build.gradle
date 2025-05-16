@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
+group 'org.mualloyt'
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/mualloy', 'src/parser']
+        }   
+        resources {
+            srcDirs = ['src/mualloy', 'src/parser']
+        }   
+    }   
+}
+
+dependencies {
+    compile (name: 'alloy', ext: 'jar')
+    compile (name: 'commons-cli-1.4', ext: 'jar')
+    compile (name: 'slf4j-simple-1.7.36', ext: 'jar')
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'mualloy.MutantGenerator',
+                'Class-Path': configurations.runtime.files.collect { "libs/$it.name" }.join(' ')
+    }
+    archiveName 'MuAlloyT.jar'
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+build {
+    compileJava
+}
